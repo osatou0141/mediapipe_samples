@@ -13,7 +13,7 @@ mp_hands = mp.solutions.hands  # type: ignore
 # For webcam input:
 cap = cv2.VideoCapture(0)
 cvFpsCalc = cvfpscalc.CvFpsCalc(buffer_len=60)
-with mp_hands.Hands(max_num_hands=2,
+with mp_hands.Hands(max_num_hands=1,
                     model_complexity=0,
                     min_detection_confidence=0.35,
                     min_tracking_confidence=0.35) as hands:
