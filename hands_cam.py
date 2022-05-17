@@ -34,6 +34,9 @@ with mp_hands.Hands(max_num_hands=1,
         image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
         # cv2 is in BGR color space.
 
+#COLOR_RGB2GRAY
+#COLOR_GRAY2BGR
+
         # Draw the hand annotations on the image.
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
@@ -42,7 +45,16 @@ with mp_hands.Hands(max_num_hands=1,
                             hand_landmarks,
                             mp_hands.HAND_CONNECTIONS,
                             mp_drawing_styles.get_default_hand_landmarks_style(),
-                            mp_drawing_styles.get_default_hand_connections_style())
+                            mp_drawing_styles.get_default_hand_connections_style()
+                )
+                print(
+                f'Index finger tip coordinates: (',
+                f'{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x * 64:.3}, '
+                f'{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y * 48:.3})'
+                )
+                if hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_PIP].y * 48 - hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y * 48 < 5:
+                    print("handsign")
+
         # Flip the image horizontally for selfie-view.
         image = cv2.flip(image, 1)
         # Draw the title and FPS
@@ -52,6 +64,8 @@ with mp_hands.Hands(max_num_hands=1,
         cv2.putText(image, "FPS:" + str(display_fps), org=(520, 68),
                     fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=0.8,
                     color=(120, 255, 120), thickness=2, lineType=cv2.LINE_AA)
+
+#120, 255, 120
 
         cv2.imshow('MediaPipe Hands Demo (press Esc to exit)', image)
 
